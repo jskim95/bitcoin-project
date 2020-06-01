@@ -43,6 +43,13 @@ const state = {
 
     allData({state, commit}, data){
       // 코인 영어, 한글이름 배열에 담기
+      if(state.allCoinEnglishName !== []) {
+        state.allCoinEnglishName = []
+        state.allCoinKoreaName = []
+        state.coinPrice = []
+        state.coinChange = []
+        state.coinCheck = []
+      }
       axios.get('https://api.upbit.com/v1/market/all')
       .then(res => {
         console.log(res)

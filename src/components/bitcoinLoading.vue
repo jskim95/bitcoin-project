@@ -15,8 +15,8 @@
         <div class="loading"></div>
 
         <div class="loadingEnglishTest">
-          <span class="big"><strong>Please wait 5 seconds</strong></span><br /><br />
-          <span class="middle"><strong>Checking your browser before accessing upbit.com.</strong></span><br />
+          <span class="big"><strong>Please wait 5 seconds</strong></span><br />
+          <span class="middle"><strong>Checking your browser before accessing upbit.com.</strong></span><br /><br />
           <span class="small">this process is automatic. Your browser will redirect to your requested content shortly.</span><br />
           <span class="small">Please allow up to 5 seconds....</span><br />
         </div>
@@ -33,22 +33,22 @@ export default {
 
 <style scoped>
 
-#ALL {
+/* #ALL {
   background: #e9ecf1;
-}
+} */
 
 #loadingMain {
   background: white;
   width: 60%;
+  min-height: 700px;
   margin-left: 20%;
-}
-
-#loadingMain {
-  padding-top: 8%;
+  margin-top: 6%;
   text-align: center;
+  padding-top: 4%;
 }
-
-
+.loadingLogo {
+  margin-top: 4%;
+}
 
 .big {
   font-size: 40px;
@@ -66,11 +66,11 @@ export default {
 
 .loading{
   /* position: absolute; */
-  margin-top: 3%;
-  margin-bottom: 2%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   margin-left: 47.5%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 5px solid #093687;
   border-color: #093687 transparent transparent;
   border-radius: 50%;

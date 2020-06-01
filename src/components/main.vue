@@ -1,19 +1,55 @@
 <template>
   <div id="ALL">
 
-      <div id="top">
-        <div id="loadingTop"><strong>bitcoin</strong></div>
+      <div class="top" v-bind:class="{'loadingTop': linkCheck == true}">
+
+        <span class="home" v-on:click="moveHome" >
+
+          <span v-if="linkCheck==false" class="homeButton" >
+            <router-link to="/">bitcoin</router-link>
+          </span>
+
+          <span v-if="linkCheck==true" class="homeMoveButton" >
+            <router-link to="/">bitcoin</router-link>
+          </span>
+
+        </span>
+
+          <span class="menu" v-on:click="moveMenu" v-bind:class="{'topButton': linkCheck == true}">
+            <span class="link">
+              <router-link to="weather" class="link">거래소</router-link>
+            </span>
+            <span class="link">
+              <router-link to="weather" class="link">입출금</router-link>
+            </span>
+            <span class="link">
+              <router-link to="weather" class="link">투자내역</router-link>
+            </span>
+            <span class="link">
+              <router-link to="weather" class="link">코인동향</router-link>
+            </span>
+          </span>
+
+
       </div>
 
       <div id="main">
-        <loadingPage v-if="loaded==false"></loadingPage>
-        
-        {{coinCheck}}
-        <router-view ></router-view>
+        <div class="">
+          <loadingPage v-if="loaded==false"></loadingPage>
+        </div>
+
+        <div v-if="linkCheck==false">
+          <bitcoinMain></bitcoinMain>
+        </div>
+
+        <div v-if="linkCheck==true">
+          <router-view></router-view>
+        </div>
+
+
       </div>
 
       <div id="bottom">
-        hihi
       </div>
 
   </div>
@@ -21,6 +57,7 @@
 
 <script>
 import loadingPage from './bitcoinLoading.vue'
+import bitcoinMain from './bitcoinMain.vue'
 
 import {createNamespacedHelpers} from 'vuex'
 const bitcoinData = createNamespacedHelpers('bitcoin')
@@ -29,6 +66,13 @@ export default {
 
   components:{
     'loadingPage':loadingPage,
+    'bitcoinMain':bitcoinMain,
+  },
+
+  data() {
+    return {
+      linkCheck:false
+    }
   },
 
   computed:{
@@ -45,7 +89,13 @@ export default {
   methods: {
     ...bitcoinData.mapActions([
       'allData'
-    ])
+    ]),
+    moveMenu() {
+      this.linkCheck = true;
+    },
+    moveHome() {
+      this.linkCheck = false;
+    },
   }, // methods 끝
 
   mounted() {
@@ -59,64 +109,52 @@ export default {
 /* https://www.flaticon.com/free-icon/sun_606795?term=sun&page=1&position=1 */
 
    #ALL {
-     /* background: black; */
+     background: #e9ecf1; /* 진한 회색 */
    }
 
-   #bitcoin_box {
-     margin-left: 5%;
-     width: 90%;
-     min-height: 740px;
-     background: white;
-   }
-
-   #loadingTop {
+   .top {
      height: 50px;
      font-size: 24px;
-     color: white;
-     background-color: #093687;
+     background-color: #f4f5f8; /* 연한 회색 */
      padding-left: 2%;
      padding-top: 1%;
    }
 
-   #loadingMain {
-     padding-top: 8%;
-     text-align: center;
-   }
-
-   .loadingText {
-
-   }
-
-   .big {
-     font-size: 48px;
-     color: #093687;
-   }
-   .small {
-     padding-top: 50%;
-     color: gray;
-   }
-
-
-
-   .loading{
-     /* position: absolute; */
-     margin-top: 3%;
-     margin-bottom: 2%;
-     margin-left: 47.5%;
-     width: 50px;
+   .loadingTop {
      height: 50px;
-     border: 5px solid #093687;
-     border-color: #093687 transparent transparent;
-     border-radius: 50%;
-     animation: spin 1s linear infinite
-   }
-   @keyframes spin {
-     100% { transform: rotate(360deg);}
+     background-color: #093687; /* 업비트 파란색 배경 */
+     padding-left: 2%;
+     padding-top: 1%;
    }
 
-   .total{
-     display: block;
-     /* width: 1000px; */
-     margin-left: 15px;
+   .topButton a {
+     color: white;
    }
+   .homeMoveButton a {
+     font-size: 30px;
+     font-weight: bold;
+     color: white;
+     text-decoration: none;
+   }
+
+   .homeButton a{
+     font-size: 30px;
+     font-weight: bold;
+     color: #0062df; /* 업비트 파란색 글자 */
+     text-decoration: none;
+   }
+
+   .link {
+     font-size: 17px;
+     font-weight: bold;
+     color: #2b2b2b;
+     padding-left: 10px;
+     text-decoration: none;
+   }
+
+   .home {
+     margin-right: 5%;
+   }
+
+
 </style>
