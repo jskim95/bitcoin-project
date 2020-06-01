@@ -37,7 +37,7 @@ const state = {
   }
   // 비동기를 사용할 때, 또는 여러 mutations를 연달아 송출할 때
   const actions = {
-    getData({state, commit}, data) {
+    getnowData({state, commit}, data) {
       axios.get('https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%EB%82%A0%EC%94%A8')
       .then(res => {
         var $ = cheerio.load(res.data)

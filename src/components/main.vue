@@ -1,122 +1,55 @@
 <template>
   <div id="ALL">
-    <div id="phone">
 
-      <div id="memu">
-
-
-
-        <div id="mainTrade">
-          <main-title></main-title>
-        </div>
-
-        <div id="mainWeather">
-
-          <div class="nowTemperature">
-            {{nowTemperature}}˚
-          </div>
-
-          <router-link to="weather">
-            <div v-if='nowWeatherCheck[0]==="맑"'>
-              <img src="../assets/mainsunny.png">
-            </div>
-            <div v-if='nowWeatherCheck[0]==="흐"'>
-              <img src="../assets/mainCloudy.png">
-            </div>
-            <div v-if='nowWeatherCheck[0]==="구"'>
-              <img src="../assets/mainLittleCloudy.png">
-            </div>
-            <div v-if='nowWeatherCheck[0]==="비"'>
-              <img src="../assets/mainRaining.png">
-            </div>
-          </router-link>
-
-          <div class="city">
-            동작구
-          </div>
-
-          <div class="dust">
-            미세먼지 : {{todayDust}}
-          </div>
-          <div class="dust">
-            초미세먼지 : {{todayDDust}}
-          </div>
-
-          <!-- <now-weather></now-weather> -->
-        </div>
-
-        <div id="items">
-
-          <div class="item">
-            <router-link class="item" to="spanishWord"><img src="../assets/iconWordTest.png" /></router-link>
-          </div>
-          <div class="item">
-            <router-link  class="item" to="weather"><img src="../assets/iconWeather.png" /></router-link>
-          </div>
-
-          <div class="item">
-            <router-link  class="item" to="bitcoin"><img src="../assets/iconBitcoin.png" /></router-link>
-          </div>
-          <div class="item">
-            <router-link  class="item" to="todo"><img src="../assets/iconTodo.png" /></router-link>
-          </div>
-
-
-        </div>
-
-
-
-        <!-- <div>
-          <router-link class="item" to="spanish">spanish</router-link>
-        </div>
-        <div>
-          <router-link  class="item" to="trade">trade</router-link>
-        </div> -->
-        <div class="mainBackground">
-          <img src="../assets/mainSunnyBackground.jpg">
-        </div>
+      <div id="top">
+        <div id="loadingTop"><strong>bitcoin</strong></div>
       </div>
-      <div id="content">
+
+      <div id="main">
+        <loadingPage v-if="loaded==false"></loadingPage>
+        
+        {{coinCheck}}
         <router-view ></router-view>
       </div>
-    </div>
 
+      <div id="bottom">
+        hihi
+      </div>
 
   </div>
 </template>
 
 <script>
-import mainTitle from './main/mainTitle'
+import loadingPage from './bitcoinLoading.vue'
 
 import {createNamespacedHelpers} from 'vuex'
-const nowWeather = createNamespacedHelpers('weather')
+const bitcoinData = createNamespacedHelpers('bitcoin')
 
 export default {
-  // name: 'main',
 
   components:{
-    'mainTitle': mainTitle,
+    'loadingPage':loadingPage,
   },
 
   computed:{
-    ...nowWeather.mapState([
-      'nowTemperature',
-      'nowWeatherCheck',
-      'todayMin',
-      'todayMax',
-      'todayDust',
-      'todayDDust',
+    ...bitcoinData.mapState([
+      'allCoinEnglishName',
+      'allCoinKoreaName',
+      'coinCheck',
+      'coinPrice',
+      'coinChange',
+      'loaded',
     ])
   },
 
   methods: {
-    ...nowWeather.mapActions([
-      'getData'
+    ...bitcoinData.mapActions([
+      'allData'
     ])
   }, // methods 끝
 
   mounted() {
-    this.getData()
+    this.allData()
   },
 }
 </script>
@@ -124,89 +57,66 @@ export default {
 <style scoped>
 /* https://codepen.io/hexagoncircle/pen/XWbWKwL   버튼 css 예제 */
 /* https://www.flaticon.com/free-icon/sun_606795?term=sun&page=1&position=1 */
- #ALL {
-   width: 100%;
- }
 
- #phone {
-   background: black;
- }
+   #ALL {
+     /* background: black; */
+   }
 
- #memu{
-   margin-left: 5%;
-   width: 91%;
- }
+   #bitcoin_box {
+     margin-left: 5%;
+     width: 90%;
+     min-height: 740px;
+     background: white;
+   }
 
- .mainBackground img {
-   width: 100%;
-   height: 750px;
- }
+   #loadingTop {
+     height: 50px;
+     font-size: 24px;
+     color: white;
+     background-color: #093687;
+     padding-left: 2%;
+     padding-top: 1%;
+   }
 
- #mainTrade {
-   position: absolute;
-   width: 90%;
-   margin-top: 2%;
- }
+   #loadingMain {
+     padding-top: 8%;
+     text-align: center;
+   }
 
- #mainWeather {
-   position: absolute;
-   display: flex;
-   flex-direction: column;
-   text-align: center;
-   width: 15%;
-   margin-top: 6%;
-   margin-left: 37%;
- }
+   .loadingText {
 
- .nowTemperature {
-   color: white;
-   font-size: 120px;
-   padding-left: 20%;
- }
+   }
 
- #mainWeather img{
-   width: 100px;
-   filter: invert(100%);
-   padding-top: 3%;
-   margin-right: 1%;
- }
+   .big {
+     font-size: 48px;
+     color: #093687;
+   }
+   .small {
+     padding-top: 50%;
+     color: gray;
+   }
 
- .city {
-   color: white;
-   padding-top: 9%;
-   padding-bottom: 9%;
-   font-size: 24px;
-   margin-right: 3%;
- }
 
- .dust {
-   color: white;
-   padding-bottom: 5%;
- }
 
- #items {
-   display: flex;
-   flex-direction: row;
-   position: absolute;
-   margin-top: 42.5%;
-   background: white;
-   width: 90%;
-   opacity: 0.7
- }
- .item {
-   width: 100%;
-   text-align: center;
- }
- .item img{
-   width: 100px;
- }
+   .loading{
+     /* position: absolute; */
+     margin-top: 3%;
+     margin-bottom: 2%;
+     margin-left: 47.5%;
+     width: 50px;
+     height: 50px;
+     border: 5px solid #093687;
+     border-color: #093687 transparent transparent;
+     border-radius: 50%;
+     animation: spin 1s linear infinite
+   }
+   @keyframes spin {
+     100% { transform: rotate(360deg);}
+   }
 
- #content{
-   position: absolute;
-   width: 100%;
-   /* margin-left: 5%; */
-   margin-bottom: 10%;
- }
-
- p { margin: 7px 0px 8px 0px; line-height: 130%; }
+   .total{
+     display: block;
+     /* width: 1000px; */
+     margin-left: 15px;
+   }
 </style>
