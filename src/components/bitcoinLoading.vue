@@ -42,7 +42,7 @@ export default {
   width: 60%;
   min-height: 700px;
   margin-left: 20%;
-  margin-top: 6%;
+  /* margin-top: 4%; */
   text-align: center;
   padding-top: 4%;
 }

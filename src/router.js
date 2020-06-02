@@ -7,6 +7,7 @@ import todo from './components/todo'
 import trade from './components/trade'
 import bitcoin from './components/bitcoin'
 import spanishWord from './components/spanishWord'
+import bitcoinTrade from './components/bitcoinTrade'
 
 
 Vue.use(Router)
@@ -25,7 +26,7 @@ export default new Router({
         },
         {
           path:'weather',
-          component:weather
+          component:weather,
         },
         {
           path:'todo',
@@ -42,7 +43,11 @@ export default new Router({
         {
           path:'spanishWord',
           component:spanishWord
-        }
+        },
+        {
+          path:'bitcoinTrade',
+          component:bitcoinTrade
+        },
       ]
     }
   ],

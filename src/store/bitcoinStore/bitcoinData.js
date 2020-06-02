@@ -2,15 +2,16 @@ var axios = require('axios')
 var cheerio = require('cheerio')
 
 const state = {
-    // nowTemperature: '12', // 현재 온도
-    // nowWeatherCheck: '흐림', // 맑음, 흐림 체크
     allCoin: '',
     allCoinEnglishName: [],
     allCoinKoreaName: [],
     coinCheck: [],
     coinPrice: [],
     coinChange: [],
+    coinChangePrice: [],
     loaded: false,
+
+    tradeAllcoin: [],
 
   }
   // vue의 computed와 비슷
@@ -29,18 +30,6 @@ const state = {
   }
   // 비동기를 사용할 때, 또는 여러 mutations를 연달아 송출할 때
   const actions = {
-    // getData({state, commit}, data) {
-    //   axios.get('https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%EB%82%A0%EC%94%A8')
-    //   .then(res => {
-    //     var $ = cheerio.load(res.data)
-    //     commit('SET_TEMPERATURE', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.main_info > div > p > span.todaytemp').text())
-    //     commit('SET_WEATHERCHECK', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.main_info > div > ul > li:nth-child(1) > p').text())
-    //     commit('SET_TODAYMIN', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.main_info > div > ul > li:nth-child(2) > span.merge > span.min').text())
-    //     commit('SET_TODAYMAX', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.main_info > div > ul > li:nth-child(2) > span.merge > span.max').text())
-    //     commit('SET_TODAYDUST', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.sub_info > div > dl > dd:nth-child(2)').text())
-    //     commit('SET_TODAYDDUST', $('#main_pack > div.sc.cs_weather._weather > div:nth-child(2) > div.weather_box > div.weather_area._mainArea > div.today_area._mainTabContent > div.sub_info > div > dl > dd:nth-child(4)').text())
-    //   })
-    // },
 
     allData({state, commit}, data){
       // 코인 영어, 한글이름 배열에 담기
@@ -69,6 +58,7 @@ const state = {
         var price = '';
         var change = '';
         var check = '';
+        var changePrice = '';
 
         const countPrice = i => {
 
@@ -83,6 +73,7 @@ const state = {
                 price += res2.data[0].trade_price+","
                 change += res2.data[0].change_rate+","
                 check += res2.data[0].change+","
+                changePrice += res2.data[0].change_price+","
               })
 
               i++;
@@ -95,6 +86,13 @@ const state = {
             state.coinPrice.push(price.split(","))
             state.coinChange.push(change.split(","))
             state.coinCheck.push(check.split(","))
+            state.coinChangePrice.push(changePrice.split(","))
+            
+            var tranlate = /\B(?=(\d{3})+(?!\d))/g // 1000원마다 , 찍어주는식
+            for(var i=0; i<state.allCoinEnglishName.length; i++){
+              state.tradeAllcoin.push([(state.coinChange[0][i]*100).toFixed(2), state.allCoinEnglishName[i], state.coinCheck[0][i], state.allCoinKoreaName[i], (state.coinPrice[0][i]).toString().replace(tranlate, ','), (state.coinChangePrice[0][i]).toString().replace(tranlate, ',')])
+            }
+
           }
         }
         countPrice(0) // 0번째 코인부터 마지막 코인까지 꺼내기 위해 0부터 시작

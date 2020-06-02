@@ -143,11 +143,6 @@ export default {
         console.log(res.data[res.data.length-1].opening_price)
       })
     }, // drawChart 끝
-    test(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    }
 
   }, // methods 끝
   mounted() {

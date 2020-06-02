@@ -15,9 +15,9 @@
 
         </span>
 
-          <span class="menu" v-on:click="moveMenu" v-bind:class="{'topButton': linkCheck == true}">
+          <span class="menu" v-on:click="moveMenu" v-bind:class="{'topButton': linkCheck == true}" v-if="loaded==true">
             <span class="link">
-              <router-link to="weather" class="link">거래소</router-link>
+              <router-link to="bitcoinTrade" class="link">거래소</router-link>
             </span>
             <span class="link">
               <router-link to="weather" class="link">입출금</router-link>
@@ -29,7 +29,6 @@
               <router-link to="weather" class="link">코인동향</router-link>
             </span>
           </span>
-
 
       </div>
 
@@ -71,7 +70,7 @@ export default {
 
   data() {
     return {
-      linkCheck:false
+      linkCheck:false,
     }
   },
 
@@ -83,6 +82,7 @@ export default {
       'coinPrice',
       'coinChange',
       'loaded',
+      'tradeAllcoin'
     ])
   },
 
