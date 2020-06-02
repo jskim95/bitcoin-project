@@ -57,7 +57,7 @@ export default {
 
   data() {
     return {
-      loaded: false,
+      tradeLoaded: false,
       koreaPrice: '',
       koreaChange: [],
       koreaCheck: '',
@@ -79,7 +79,7 @@ export default {
       axios.get('https://finance.naver.com/sise/sise_index.nhn?code=KOSPI')
       .then(res => {
         var $ = cheerio.load(res.data)
-        this.loaded = true
+        this.tradeLoaded = true
         // 코스피 현재 가격
         this.koreaPrice = $('#now_value').text().split(',')
         this.koreaPrice = parseFloat(this.koreaPrice[0]+this.koreaPrice[1])
@@ -106,7 +106,7 @@ export default {
       axios.get('https://finance.naver.com/world/sise.nhn?symbol=NAS@IXIC')
       .then(res => {
         var $ = cheerio.load(res.data)
-        this.loaded = true
+        this.tradeLoaded = true
         // 나스닥 현재 가격
         this.americaPrice = $('#content > div.rate_info > div.today > p.no_today > em').text().split(',')
         this.americaPrice = parseFloat(this.americaPrice[0]+this.americaPrice[1])
@@ -136,7 +136,7 @@ export default {
     bitCoin(){
       axios.get('https://api.upbit.com/v1/ticker?markets=KRW-BTC')
       .then(res => {
-        this.loaded = true
+        this.tradeLoaded = true
         var bit = res.data[0]
         // console.log(bit)
         var tranlate = /\B(?=(\d{3})+(?!\d))/g // 1000원마다 , 찍어주는식

@@ -9,11 +9,11 @@
 
         <div class="coinNumber">
           <div class="coin">
-            <span class="blue">172</span><br>
+            <span class="blue">{{allCoinEnglishName.length}}</span><br>
             <span class="gray left">Coins</span>
           </div>
           <div class="market">
-            <span class="blue">260</span><br>
+            <span class="blue">{{allCoin}}</span><br>
             <span class="gray right">Markets</span>
           </div>
         </div>
@@ -36,12 +36,130 @@
       <img src="../assets/mainWarning.png">
     </div>
 
+    <div class="total">
+
+      <div class="korea">
+
+        <div class="coinName">
+          <span>KOSPI</span>
+          <p class="coinDetail">trade Kospi Index</p>
+        </div>
+
+        <div class="coinInfo">
+            <span class="up" v-if="koreaCheck ==='상승'">
+              <span class="coinPrice">{{koreaPrice}}</span> <br>
+              <span class="coinPercent">
+                 ▲ {{koreaChange}} +({{koreaPercent}}%)
+              </span>
+            </span>
+
+            <span class="down" v-else-if="koreaCheck ==='하락'">
+              <span class="coinPrice">{{koreaPrice}}</span> <br>
+              <span class="coinPercent">
+                 ▼ {{koreaChange}} -({{koreaPercent}}%)
+              </span>
+            </span>
+        </div>
+
+      </div>
+
+      <div class="america">
+        <div class="coinName">
+          <span>NASDAQ</span>
+          <p class="coinDetail">trade Nasdaq Index</p>
+        </div>
+
+        <span class="up" v-if="americaCheck ==='상승'">
+          <span class="coinPrice">{{americaPrice}}</span> <br>
+          <span class="coinPercent">
+             ▲ {{americaChange}} +({{americaPercent}}%)
+          </span>
+        </span>
+
+        <span class="down" v-else-if="americaCheck ==='하락'">
+          <span class="coinPrice">{{americaPrice}}</span> <br>
+          <span class="coinPercent">
+             ▼ {{americaChange}} -({{americaPercent}}%)
+          </span>
+        </span>
+
+      </div>
+
+      <div class="bit">
+        <div class="coinName">
+          <span>BITCOIN</span>
+          <p class="coinDetail">trade Bitcoin Index</p>
+        </div>
+
+        <div class="coinInfo">
+            <span class="up" v-if="bitCheck ==='RISE'">
+              <span class="coinPrice">{{bitPrice}}</span> <br>
+              <span class="coinPercent">
+                 ▲ {{bitChange}} +({{bitPercent}}%)
+              </span>
+            </span>
+
+            <span class="down" v-else-if="bitCheck ==='FALL'">
+              <span class="coinPrice">{{bitPrice}}</span> <br>
+              <span class="coinPercent">
+                 ▼ {{bitChange}} -({{bitPercent}}%)
+              </span>
+            </span>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 </template>
 
 <script>
-export default {
 
+import {createNamespacedHelpers} from 'vuex'
+const tradeData = createNamespacedHelpers('trade')
+const bitcoinData = createNamespacedHelpers('bitcoin')
+
+export default {
+  computed: {
+    ...tradeData.mapState([
+      'tradeLoaded',
+      'koreaPrice',
+      'koreaChange',
+      'koreaCheck',
+      'koreaPercent',
+
+      'americaPrice',
+      'americaChange',
+      'americaCheck',
+      'americaPercent',
+
+      'bitPrice',
+      'bitChange',
+      'bitCheck',
+      'bitPercent',
+
+
+    ]),
+    ...bitcoinData.mapState([
+      'allCoinEnglishName',
+      'allCoin',
+    ]),
+  },
+
+  methods: {
+    ...tradeData.mapActions([
+      'koreaData',
+      'americaData',
+      'bitCoin',
+    ]),
+  },
+
+  mounted() {
+    this.koreaData()
+    this.americaData()
+    this.bitCoin()
+  }
 }
 </script>
 
@@ -82,7 +200,8 @@ export default {
   }
   .blue {
     font-size: 48px;
-    color: #093687
+    color: #093687;
+    margin-right: 1.5%;
   }
   .gray {
     font-size: 17px;
@@ -120,4 +239,70 @@ export default {
   .warning {
     background: #2b2b2b
   }
+
+  /* 코스피, 나스닥, 비트코인 가격 */
+  .total{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #f4f5f8;
+    height: 200px;
+    margin-top: 3%;
+  }
+
+  .america{
+    width: 33%;
+    display: flex;
+  }
+
+  .korea{
+    width: 33%;
+    margin-left: 5%;
+    display: flex;
+  }
+
+  .bit{
+    width: 33%;
+    display: flex;
+  }
+
+  .coinName{
+    width: 50%;
+    font-size: 30px;
+    /* font-weight: bold; */
+    font-family: inherit;
+  }
+
+  .coinDetail{
+    font-size: 16px;
+    color: #666;
+
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .coinPrice{
+    font-size: 30px;
+  }
+
+  .coinPercent{
+    font-size: 16px;
+  }
+
+  .up{
+    color: red;
+  }
+  .down{
+    color: blue;
+  }
+  strong{
+    font-size: 18px;
+  }
+  p { margin: 5px 0px 8px 0px; line-height: 120%; }
+
+
+
+
 </style>

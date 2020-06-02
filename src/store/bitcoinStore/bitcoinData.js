@@ -4,6 +4,7 @@ var cheerio = require('cheerio')
 const state = {
     // nowTemperature: '12', // 현재 온도
     // nowWeatherCheck: '흐림', // 맑음, 흐림 체크
+    allCoin: '',
     allCoinEnglishName: [],
     allCoinKoreaName: [],
     coinCheck: [],
@@ -52,6 +53,7 @@ const state = {
       }
       axios.get('https://api.upbit.com/v1/market/all')
       .then(res => {
+        state.allCoin = res.data.length;
         console.log(res)
         for(var i=0; i<res.data.length-1; i++){
           if(res.data[i].market[0] === 'K'){ // 한국 코인만 가져오기

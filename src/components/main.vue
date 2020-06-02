@@ -38,7 +38,7 @@
           <loadingPage v-if="loaded==false"></loadingPage>
         </div>
 
-        <div v-if="linkCheck==false">
+        <div v-if="linkCheck==false && loaded==true">
           <bitcoinMain></bitcoinMain>
         </div>
 
@@ -107,9 +107,12 @@ export default {
 <style scoped>
 /* https://codepen.io/hexagoncircle/pen/XWbWKwL   버튼 css 예제 */
 /* https://www.flaticon.com/free-icon/sun_606795?term=sun&page=1&position=1 */
-
+   /* #e9ecf1;  진한 회색 */
+   /* #f4f5f8;  연한 회색 */
+   /* #093687;  업비트 파란색 배경 */
+   /* #0062df;  업비트 파란색 글자 */
    #ALL {
-     background: #e9ecf1; /* 진한 회색 */
+     background: white; /* 진한 회색 */
    }
 
    .top {
