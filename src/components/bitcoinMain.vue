@@ -205,7 +205,7 @@ export default {
   }
   .gray {
     font-size: 17px;
-    color: #7588aa
+    color: #7588aa;
   }
   .left {
     margin-right: 2.5%;
