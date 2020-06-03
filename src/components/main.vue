@@ -5,11 +5,11 @@
 
         <span class="home" v-on:click="moveHome" >
 
-          <span v-if="linkCheck==false" class="homeButton" >
+          <span v-if="linkCheck==false" class="homeButton">
             <router-link to="/">bitcoin</router-link>
           </span>
 
-          <span v-if="linkCheck==true" class="homeMoveButton" >
+          <span v-if="linkCheck==true" class="homeMoveButton">
             <router-link to="/">bitcoin</router-link>
           </span>
 
@@ -20,10 +20,10 @@
               <router-link to="bitcoinTrade" class="link">거래소</router-link>
             </span>
             <span class="link">
-              <router-link to="weather" class="link">입출금</router-link>
+              <router-link to="bitcoinLogin" class="link">입출금</router-link>
             </span>
             <span class="link">
-              <router-link to="weather" class="link">투자내역</router-link>
+              <router-link to="bitcoinLogin" class="link">투자내역</router-link>
             </span>
             <span class="link">
               <router-link to="weather" class="link">코인동향</router-link>
@@ -49,6 +49,7 @@
       </div>
 
       <div id="bottom">
+
       </div>
 
   </div>
@@ -158,6 +159,5 @@ export default {
    .home {
      margin-right: 5%;
    }
-
 
 </style>

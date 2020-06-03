@@ -49,6 +49,7 @@
             </tr>
           </tbody>
         </table>
+
       </div>
 
     </div>
@@ -232,12 +233,9 @@ export default {
     margin-right: 15%;
   }
 
-
-
   .blue {
     color: #0051c7;
   }
-
 
   p { margin: 0px 0px 0px 0px; line-height: 120%; }
   table { border-spacing: 0px 0px 0px 0px;}

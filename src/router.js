@@ -8,6 +8,7 @@ import trade from './components/trade'
 import bitcoin from './components/bitcoin'
 import spanishWord from './components/spanishWord'
 import bitcoinTrade from './components/bitcoinTrade'
+import bitcoinLogin from './components/bitcoinLogin'
 
 
 Vue.use(Router)
@@ -47,6 +48,10 @@ export default new Router({
         {
           path:'bitcoinTrade',
           component:bitcoinTrade
+        },
+        {
+          path:'bitcoinLogin',
+          component:bitcoinLogin
         },
       ]
     }
