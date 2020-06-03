@@ -2,7 +2,7 @@
   <div id="ALL">
 
     <div class="chart">
-      <!-- <bitcoin-chart v-bind:coinName="coinName" v-bind:nowPrice="nowPrice" v-bind:total="total" v-if="find===true" ></bitcoin-chart> -->
+      <bitcoin-chart v-bind:coinInfo="coinInfo" v-bind:total="total" v-if="find===true" ></bitcoin-chart>
     </div>
 
     <div class="coinType">
@@ -25,11 +25,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="coinInfo" v-for="coin in tradeAllcoin">
+            <tr class="coinInfo" v-for="(coin, index) in tradeAllcoin" v-on:click="drawChart(coin[1], coin)">
 
               <td class="coinName" style="width:40%">
                 <img class="star" src="../assets/star.png" style="width:5%">
-                <a class="coinKoreaName" v-on:click="drawChart(coin[1], index, coin[2], coin[3])" href="#">{{coin[3]}}</a>
+                <a class="coinKoreaName"  href="#">{{coin[3]}}</a>
                 <p class="coinEnglishName">{{coin[1]}}</p>
               </td>
 
@@ -59,6 +59,9 @@
 <script>
 import bitcoinChart from './bitcoin/bitcoinChart'
 
+var axios = require('axios')
+var cheerio = require('cheerio')
+
 import {createNamespacedHelpers} from 'vuex'
 const bitcoinData = createNamespacedHelpers('bitcoin')
 
@@ -69,10 +72,9 @@ export default {
   data() {
     return {
       // 차트에 데이터 보내는 변수
-      // find: false,
-      // total: [],
-      // coinName: '',
-      // nowPrice: [],
+      find: false,
+      total: [],
+      coinInfo: [],
     }
   },
   computed:{
@@ -80,31 +82,33 @@ export default {
       'tradeAllcoin'
     ])
   },
-  // methods: {
-  //   drawChart(eng, index, check, kor) {
-  //     if(this.total != []) {
-  //       this.total = []
-  //       this.find = false
-  //     }
-  //     axios.get('https://api.upbit.com/v1/candles/days?market='+eng+'&count=70')
-  //     .then(res => {
-  //       if(check == 'RISE') {
-  //         this.nowPrice = this.highCoin[index]
-  //       } else {
-  //         this.nowPrice = this.lowCoin[index]
-  //       }
-  //
-  //       this.coinName = kor
-  //       this.find = true
-  //
-  //       for(var i=0; i<res.data.length; i++){
-  //         this.total.push([res.data[i].candle_date_time_kst, res.data[i].opening_price, res.data[i].high_price, res.data[i].low_price, res.data[i].trade_price])
-  //       }
-  //       console.log(res.data)
-  //       console.log(res.data[res.data.length-1].opening_price)
-  //     })
-  //   }, // drawChart 끝
-  // },
+// 0:"0.09" // 퍼센트
+// 1:"KRW-BTC" // 영어이름
+// 2:"RISE" // 상승 하락 체크
+// 3:"비트코인" // 한국어 이름
+// 4:"11,530,000" // 코인 가격
+// 5:"10,000" // 코인 변동폭
+  methods: {
+    drawChart(eng, coinInfo) {
+
+      if(this.total != []) {
+        this.total = []
+        this.find = false
+      }
+      axios.get('https://api.upbit.com/v1/candles/days?market='+eng+'&count=70')
+      .then(res => {
+
+        this.find = true
+        this.coinInfo = coinInfo
+        for(var i=0; i<res.data.length; i++){
+          this.total.push([res.data[i].candle_date_time_kst, res.data[i].opening_price, res.data[i].high_price, res.data[i].low_price, res.data[i].trade_price])
+        }
+        // console.log(this.total)
+        console.log(eng)
+        console.log(coinInfo)
+      })
+    }, // drawChart 끝
+  },
 
 }
 </script>
@@ -121,6 +125,7 @@ export default {
     width: 60%;
     min-height: 700px;
     margin-left: 5%;
+    margin-top: 1%;
   }
 
   .coinType{
@@ -128,6 +133,7 @@ export default {
     width: 30%;
     max-height: 700px;
     margin-left: 1%;
+    margin-top: 1%;
     overflow-x:hidden;
     overflow-y:scroll;
   }
@@ -164,7 +170,7 @@ export default {
 
   .standard {
     width: 100%;
-    height: 50px;
+    height: 30px;
     background-color: #f9fafc;
     color: #666;
     font-size: 11px;
