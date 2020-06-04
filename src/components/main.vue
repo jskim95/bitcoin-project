@@ -122,6 +122,7 @@ export default {
      background-color: #f4f5f8; /* 연한 회색 */
      padding-left: 2%;
      padding-top: 1%;
+     padding-bottom: 1%;
    }
 
    .loadingTop {

@@ -169,7 +169,7 @@ export default {
   }
   .mainBackground img{
     width: 100%;
-    height: 400px;
+    height: 450px;
     opacity: 0.7;
     z-index: 1;
   }
@@ -217,7 +217,7 @@ export default {
     width: 100%;
     font-size: 17px;
     display: flex;
-    margin-top: 2%;
+    margin-top: 3%;
     padding-left: 39.7%;
   }
   .moveTrade {

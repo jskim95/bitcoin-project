@@ -7,12 +7,9 @@
 
     <div class="coinType">
 
-      <div class="coinTypeChoice">
-        <a href="#" class="choice first">원화</a>
-        <a href="#" class="choice">BTC</a>
-        <a href="#" class="choice">USDT</a>
-        <a href="#" class="choice">보유</a>
-        <a href="#" class="choice">관심</a>
+      <div id="coinTypeChoice">
+        <a href="#" class="choice yes first" v-on:click="noNeedLogin">원화</a>
+        <a href="#" class="choice no" v-on:click="needLogin(index, button)" v-for="(button, index) in typeButton">{{button}}</a>
       </div>
 
       <div class="allCoin">
@@ -24,7 +21,7 @@
               <th>전일대비</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="loginCheck===false">
             <tr class="coinInfo" v-for="(coin, index) in tradeAllcoin" v-on:click="drawChart(coin[1], coin)">
 
               <td class="coinName" style="width:40%">
@@ -48,8 +45,12 @@
 
             </tr>
           </tbody>
-        </table>
 
+
+        </table>
+        <div class="noLogin" v-if="loginCheck===true">
+          로그인하면 내 관심코인을 확인할 수 있습니다.
+        </div>
       </div>
 
     </div>
@@ -72,6 +73,8 @@ export default {
   },
   data() {
     return {
+      loginCheck: false,
+      typeButton: ['BTC', 'USDT', '보유', '관심'],
       // 차트에 데이터 보내는 변수
       find: false,
       total: [],
@@ -108,9 +111,29 @@ export default {
         console.log(eng)
         console.log(coinInfo)
       })
-    }, // drawChart 끝
-  },
+    }, // drawChart 함수 끝
+    noNeedLogin() {
+      this.loginCheck = false
+      var element = document.getElementsByClassName( 'yes' );
+      element[0].classList.add( 'first' );
+      var element = document.getElementsByClassName( 'no' );
+      for(var i=0; i<element.length; i++) {
+        element[i].classList.remove( 'first' );
+      }
+    },
+    needLogin(index) {
+      this.loginCheck = true
+      var firstElement = document.getElementsByClassName( 'yes' );
+      console.log(firstElement)
+      firstElement[0].classList.remove( 'first' );
+      var element = document.getElementsByClassName( 'no' );
+      for(var i=0; i<element.length; i++) {
+        element[i].classList.remove( 'first' );
+      }
+      element[index].classList.add( 'first' );
+    },
 
+  }, // methods 함수 끝
 }
 </script>
 
@@ -139,7 +162,7 @@ export default {
     overflow-y:scroll;
   }
 
-  .coinTypeChoice{
+  #coinTypeChoice{
     width: 100%;
     display: flex;
     border-top: 1px solid #d5d6dc;
@@ -235,6 +258,13 @@ export default {
 
   .blue {
     color: #0051c7;
+  }
+
+  .noLogin {
+    margin-top: 30%;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
   }
 
   p { margin: 0px 0px 0px 0px; line-height: 120%; }
