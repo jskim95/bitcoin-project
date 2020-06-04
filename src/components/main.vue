@@ -26,7 +26,7 @@
               <router-link to="bitcoinLogin" class="link">투자내역</router-link>
             </span>
             <span class="link">
-              <router-link to="weather" class="link">코인동향</router-link>
+              <router-link to="bitcoinAnalysis" class="link">코인동향</router-link>
             </span>
           </span>
 
