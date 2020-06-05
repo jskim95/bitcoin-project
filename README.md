@@ -75,6 +75,22 @@
 ### 월간 암호화폐 불러오는 화면
 ![image](https://user-images.githubusercontent.com/52224543/83853943-fc47af00-a750-11ea-8ab9-13116ccedf38.png)
 
-### 월관 암호화폐 불러온 후 화면
+### 월간 암호화폐 불러온 후 화면
 ![image](https://user-images.githubusercontent.com/52224543/83854008-0c5f8e80-a751-11ea-9407-617c55a7cc48.png)
+
+
+
+## vuex
+### - 파일 구조
+![image](https://user-images.githubusercontent.com/52224543/83857343-ceb13480-a755-11ea-8928-49027cc309fe.png)
+
+### - 모듈(bitcoinData.js)
+![image](https://user-images.githubusercontent.com/52224543/83856514-a37a1580-a754-11ea-8f76-a0e4a7bbe2c4.png)
+
+### - 저장소(index.js)
+![image](https://user-images.githubusercontent.com/52224543/83856585-c0164d80-a754-11ea-9235-5b1188238a02.png)
+
+### - 컴포넌트(bitcoinMain.vue)
+![image](https://user-images.githubusercontent.com/52224543/83856694-eb00a180-a754-11ea-9ee4-40d35cd0fd3f.png)
+
 
