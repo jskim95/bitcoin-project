@@ -2,20 +2,17 @@
   <div id="ALL">
     <div id="main">
 
-      <!-- <div class="top">
-        <strong>현재 시세</strong>
-      </div> -->
-
+      <!-- ---------------------------------------------------일간 상승 코인 순위------------------------------------------------------ -->
       <div class="price">
 
         <div class="left">
 
-          <div class="coinTitle" v-on:click="findweekCoin">
+          <div class="coinTitle">
             <strong>일간 상승 코인 순위</strong>
           </div>
 
           <table class="coinInfo">
-            <tr v-on:click="drawChart(high[1], index, high)" v-for="(high, index) in todayHighCoin">
+            <tr v-for="(high, index) in todayHighCoin">
               <td class="coinName"><strong class="name"><a href="#a">{{high[3]}}</a></strong></td>
               <td class="up coinPrice">{{high[4]}}원</td>
               <td class="up coinPercent">+{{high[0]}}%</td>
@@ -31,7 +28,7 @@
           </div>
 
           <table class="coinInfo">
-            <tr class="down" v-on:click="drawChart(low[1], index, low)" v-for="(low, index) in todayLowCoin">
+            <tr class="down" v-for="(low, index) in todayLowCoin">
               <td class="coinName"><strong class="name"><a href="#a">{{low[3]}}</a></strong></td>
               <td class="down coinPrice">{{low[4]}}원</td>
               <td class="down coinPercent">-{{low[0]}}%</td>
@@ -42,9 +39,85 @@
 
       </div>
 
-    </div>
 
-  </div>
+      <!-- ---------------------------------------------------주간 상승 코인 순위------------------------------------------------------ -->
+
+      <div class="loading" v-if="weekFind==false"></div>
+      <div class="price" v-if="weekFind==true">
+
+        <div class="left">
+
+          <div class="coinTitle">
+            <strong>주간 상승 코인 순위</strong>
+          </div>
+
+          <table class="coinInfo">
+            <tr v-for="(high, index) in weekHighCoin">
+              <td class="coinName"><strong class="name"><a href="#a">{{high[1]}}</a></strong></td>
+              <td class="up coinPrice">{{high[4]}}원</td>
+              <td class="up coinPercent">+{{high[0]}}%</td>
+            </tr>
+          </table>
+
+        </div>
+
+        <div class="right">
+
+          <div class="coinTitle">
+            <strong>주간 하락 코인 순위</strong>
+          </div>
+
+          <table class="coinInfo">
+            <tr class="down" v-for="(low, index) in weekLowCoin">
+              <td class="coinName"><strong class="name"><a href="#a">{{low[1]}}</a></strong></td>
+              <td class="down coinPrice">{{low[4]}}원</td>
+              <td class="down coinPercent">{{low[0]}}%</td>
+            </tr>
+          </table>
+
+        </div>
+
+      </div>
+
+      <!-- ---------------------------------------------------월간 상승 코인 순위------------------------------------------------------ -->
+      <div class="loading" v-if="monthFind==false && weekFind==true"></div>
+      <div class="price" v-if="monthFind==true">
+
+        <div class="left">
+
+          <div class="coinTitle">
+            <strong>월간 상승 코인 순위</strong>
+          </div>
+
+          <table class="coinInfo">
+            <tr v-for="(high, index) in monthHighCoin">
+              <td class="coinName"><strong class="name"><a href="#a">{{high[1]}}</a></strong></td>
+              <td class="up coinPrice">{{high[4]}}원</td>
+              <td class="up coinPercent">+{{high[0]}}%</td>
+            </tr>
+          </table>
+
+        </div>
+
+        <div class="right">
+
+          <div class="coinTitle">
+            <strong>월간 하락 코인 순위</strong>
+          </div>
+
+          <table class="coinInfo">
+            <tr class="down" v-for="(low, index) in monthLowCoin">
+              <td class="coinName"><strong class="name"><a href="#a">{{low[1]}}</a></strong></td>
+              <td class="down coinPrice">{{low[4]}}원</td>
+              <td class="down coinPercent">{{low[0]}}%</td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+    </div> <!--  id = main -->
+  </div> <!--  id = ALL -->
 </template>
 
 <script>
@@ -60,10 +133,14 @@ export default {
       todayLowCoin: [],
       weekHighCoin: [],
       weekLowCoin: [],
+      monthHighCoin: [],
+      monthLowCoin: [],
 
       total: [],
       weekTotal: [],
-      find: '',
+      monthTotal: [],
+      weekFind: false,
+      monthFind: false,
     }
   },
   computed: {
@@ -76,6 +153,8 @@ export default {
 
   methods: {
     findTodayCoin() {
+      // tradeAllcoin 변수 정보
+
       // 0: "0.11"
       // 1: "KRW-BTC"
       // 2: "FALL"
@@ -128,6 +207,7 @@ export default {
 
               // 코스피 전날 대비 증감% - ((현재가-전일종가)/전일종가 * 100).
 
+              // cal 변수 정보
               // 0: "104.74" - 전주 대비 증감%
               // 1: "스톰"
               // 2: "FALL"
@@ -164,43 +244,112 @@ export default {
             divide.push([this.weekTotal[0][i][0], this.weekTotal[0][i][1], this.weekTotal[0][i][2], this.weekTotal[0][i][3], this.weekTotal[0][i][4], this.weekTotal[0][i][5] ])
           }
           console.log(divide)
+
           // 7개 이후는 자르기
+          // 0: "82.03" - 전주 대비 증감%
+          // 1: "스톰"
+          // 2: "RISE"
+          // 3: "KRW-STORM"
+          // 4: "3.95" - 현재 가격
+          // 5: 2.17   - 1주일 전 가격
           this.weekHighCoin = divide.slice(0, 7)
           this.weekLowCoin = divide.slice(divide.length-7).reverse()
-
-          // console.log(this.weekHighCoin [0][0] > 0)
-          // console.log(this.weekLowCoin[0][0] > 0)
+          if(this.weekHighCoin != []) {
+            this.weekFind = true
+            this.findMonthCoin()
+          }
+          console.log(this.weekHighCoin)
+          console.log(this.weekLowCoin)
         }
       }
       countPrice(0) // 0번째 코인부터 마지막 코인까지 꺼내기 위해 0부터 시작
 
     }, // findweekCoin 함수 끝
 
-    drawChart(eng, index, total) {
-      if(this.total != []) {
-        this.total = []
-        this.find = false
-      }
-      axios.get('https://api.upbit.com/v1/candles/months?market='+eng+'&count=70')
-      .then(res => {
-        // if(check == 'RISE') {
-        //   this.nowPrice = this.highCoin[index]
-        // } else {
-        //   this.nowPrice = this.lowCoin[index]
-        // }
-        this.find = true
+    findMonthCoin() {
+      // 0: "0.11"
+      // 1: "KRW-BTC"
+      // 2: "FALL"
+      // 3: "비트코인"
+      // 4: "11,635,000"
+      // 5: "13,000"
+      // this.tradeAllcoin.length
+      var zip = [];
+      var tranlate = /\B(?=(\d{3})+(?!\d))/g // 1000원마다 , 찍어주는식
+      var eng = this.tradeAllcoin;
+      var cal = [];
+      const countPrice = i => {
+        if(i<eng.length)
+        {
+          setTimeout(function() {
+            axios.get('https://api.upbit.com/v1/candles/days?market='+eng[i][1]+'&count=31')
+            .then(res2 => {
 
-        for(var i=0; i<res.data.length; i++){
-          this.total.push([res.data[i].candle_date_time_kst, res.data[i].opening_price, res.data[i].high_price, res.data[i].low_price, res.data[i].trade_price])
+              // 코스피 전날 대비 증감% - ((현재가-전일종가)/전일종가 * 100).
+
+              // cal 변수 정보
+              // 0: "104.74" - 전주 대비 증감%
+              // 1: "스톰"
+              // 2: "FALL"
+              // 3: "KRW-STORM"
+              // 4: "4.32"  - 현재 가격
+              // 5: 2.11  - 1주일 전 가격
+              console.log(res2.data[30])
+              if(i==0) {
+                var changeNum = eng[0][4].replace(/,/gi,"")
+                cal.push([((parseFloat(changeNum)-res2.data[30].opening_price)/res2.data[30].opening_price*100).toFixed(2), eng[0][3], eng[0][2], eng[0][1], eng[0][4], res2.data[30].opening_price])
+
+                i++;
+                countPrice(i)
+              } else {
+                var changeNum = eng[i][4].replace(/,/gi,"")
+                cal.push([((parseFloat(changeNum)-res2.data[30].opening_price)/res2.data[30].opening_price*100).toFixed(2), eng[i][3], eng[i][2], eng[i][1], eng[i][4], res2.data[30].opening_price])
+
+                i++;
+                countPrice(i)
+              }
+
+            })
+
+
+          }, 200) // setTimeout 함수 종료
+
+        } else
+        {
+
+          this.monthTotal.push(cal)
+          this.monthTotal[0].sort(function (a, b) { return a[0]-b[0];}).reverse()
+          var divide = [];
+
+          for(var i=0; i<this.monthTotal[0].length; i++) {
+            divide.push([this.monthTotal[0][i][0], this.monthTotal[0][i][1], this.monthTotal[0][i][2], this.monthTotal[0][i][3], this.monthTotal[0][i][4], this.monthTotal[0][i][5] ])
+          }
+
+          // 7개 이후는 자르기
+          // 0: "82.03" - 전주 대비 증감%
+          // 1: "스톰"
+          // 2: "RISE"
+          // 3: "KRW-STORM"
+          // 4: "3.95" - 현재 가격
+          // 5: 2.17   - 1주일 전 가격
+          this.monthHighCoin = divide.slice(0, 7)
+          this.monthLowCoin = divide.slice(divide.length-7).reverse()
+          if(this.monthHighCoin != []) {
+            this.monthFind = true
+          }
+          console.log(this.monthHighCoin)
+          console.log(this.monthLowCoin)
         }
-        console.log(res.data)
-        console.log(res.data[res.data.length-1].opening_price)
-      })
-    }, // drawChart 끝
+      }
+      countPrice(0) // 0번째 코인부터 마지막 코인까지 꺼내기 위해 0부터 시작
+
+    }, // findweekCoin 함수 끝
 
   }, // methods 끝
   mounted() {
     this.findTodayCoin()
+    this.findweekCoin()
+    // this.findMonthCoin()
   }
 }
 </script>
@@ -299,5 +448,21 @@ a {
   width: 100%;
   margin-top: 2%;
   background: white;
+}
+
+.loading{
+  /* position: absolute; */
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 47.5%;
+  width: 40px;
+  height: 40px;
+  border: 5px solid #093687;
+  border-color: #093687 transparent transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite
+}
+@keyframes spin {
+  100% { transform: rotate(360deg);}
 }
 </style>
