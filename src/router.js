@@ -1,12 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import main from './components/main'
-import spanish from './components/spanish'
-import weather from './components/weather'
-import todo from './components/todo'
-import trade from './components/trade'
-import bitcoin from './components/bitcoin'
-import spanishWord from './components/spanishWord'
 import bitcoinTrade from './components/bitcoinTrade'
 import bitcoinLogin from './components/bitcoinLogin'
 import bitcoinAnalysis from './components/bitcoinAnalysis'
@@ -23,30 +17,6 @@ export default new Router({
       component:main,
       children: [
         {
-          path:'spanish',
-          component:spanish
-        },
-        {
-          path:'weather',
-          component:weather,
-        },
-        {
-          path:'todo',
-          component:todo
-        },
-        {
-          path:'trade',
-          component:trade
-        },
-        {
-          path:'bitcoin',
-          component:bitcoin
-        },
-        {
-          path:'spanishWord',
-          component:spanishWord
-        },
-        {
           path:'bitcoinTrade',
           component:bitcoinTrade
         },
@@ -58,14 +28,8 @@ export default new Router({
           path:'bitcoinAnalysis',
           component:bitcoinAnalysis
         },
-      ]
-    }
-  ],
-  // scrollBehavior (to, from, savedPosition) {
-  //   if (savedPosition) {
-  //     return savedPosition
-  //   } else {
-  //     return { x: 0, y: 0 }
-  //   }
-  // }
+      ] // children 끝
+    } // router 설정 끝
+  ], // routes 끝
+
 })

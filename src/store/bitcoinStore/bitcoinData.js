@@ -20,12 +20,6 @@ const state = {
   }
   // state를 수정할 때 사용
   const mutations = {
-    // SET_TEMPERATURE(state, data) {
-    //   state.nowTemperature = data
-    // },
-    // SET_WEATHERCHECK(state, data) {
-    //   state.nowWeatherCheck = data
-    // },
 
   }
   // 비동기를 사용할 때, 또는 여러 mutations를 연달아 송출할 때
@@ -87,7 +81,7 @@ const state = {
             state.coinChange.push(change.split(","))
             state.coinCheck.push(check.split(","))
             state.coinChangePrice.push(changePrice.split(","))
-            
+
             var tranlate = /\B(?=(\d{3})+(?!\d))/g // 1000원마다 , 찍어주는식
             for(var i=0; i<state.allCoinEnglishName.length; i++){
               state.tradeAllcoin.push([(state.coinChange[0][i]*100).toFixed(2), state.allCoinEnglishName[i], state.coinCheck[0][i], state.allCoinKoreaName[i], (state.coinPrice[0][i]).toString().replace(tranlate, ','), (state.coinChangePrice[0][i]).toString().replace(tranlate, ',')])

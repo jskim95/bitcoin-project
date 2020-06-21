@@ -284,7 +284,6 @@ export default {
           setTimeout(function() {
             axios.get('https://api.upbit.com/v1/candles/days?market='+eng[i][1]+'&count=31')
             .then(res2 => {
-
               // 코스피 전날 대비 증감% - ((현재가-전일종가)/전일종가 * 100).
 
               // cal 변수 정보
@@ -294,7 +293,6 @@ export default {
               // 3: "KRW-STORM"
               // 4: "4.32"  - 현재 가격
               // 5: 2.11  - 1주일 전 가격
-              console.log(res2.data[30])
               if(i==0) {
                 var changeNum = eng[0][4].replace(/,/gi,"")
                 cal.push([((parseFloat(changeNum)-res2.data[30].opening_price)/res2.data[30].opening_price*100).toFixed(2), eng[0][3], eng[0][2], eng[0][1], eng[0][4], res2.data[30].opening_price])
@@ -360,6 +358,7 @@ export default {
 }
 #main {
   background: #e9ecf1;
+  min-height: 800px;
 }
 
 .top {
